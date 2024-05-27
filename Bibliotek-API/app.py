@@ -8,7 +8,7 @@ CORS(app)
 con = sqlite3.Connection(
     "/var/www/flask-application/database.db", check_same_thread=False
 )
-cur = con.cursor()  # cursor
+cur = con.cursor()
 
 
 @app.route("/", methods=["GET"])
@@ -48,8 +48,6 @@ def bok(nummer):
         return response, 200
     except sqlite3.Error as e:
         return {"error": str(e)}, 500
-    except TypeError:
-        return {"error": "Fant ikke bok"}, 404
 
 
 @app.route("/filter/<streng>", methods=["GET"])
