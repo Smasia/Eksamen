@@ -1,0 +1,4 @@
+*.db* 
+bøker.csv
+nyebøker.json
+barcode/
