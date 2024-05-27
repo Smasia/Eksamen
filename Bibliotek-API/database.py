@@ -34,6 +34,8 @@ with open("../bøker.csv", "r", encoding="utf-8") as file:
                 "nummer": d_bok[3],
             }
         )
+        
+# jeg lager 50 tomme rader, et valg jeg tar for å unngå komplisert kode for å ha et maks antall bøker på 50
 cur.executemany(
     "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
     [(bok["tittel"], bok["forfatter"], bok["isbn"], bok["nummer"]) for bok in bokliste],

@@ -16,14 +16,15 @@ def index():
         bøker = cur.fetchall()
         response = []
         for bok in bøker:
-            response.append(
-                {
-                    "tittel": bok[0],
-                    "forfatter": bok[1],
-                    "isbn": int(bok[2]),
-                    "nummer": int(bok[3]),
-                }
-            )
+            if bok[0] is not None:
+                response.append(
+                    {
+                        "tittel": bok[0],
+                        "forfatter": bok[1],
+                        "isbn": bok[2],
+                        "nummer": bok[3],
+                    }
+                )
         return response, 200
     except sqlite3.Error as e:
         return {"error": str(e)}, 500
@@ -71,6 +72,23 @@ def filter(streng):
                 }
             )
         return response, 200
+    except sqlite3.Error as e:
+        return {"error": str(e)}, 500
+
+
+@app.route("/slettbok/<nummer>", methods=["DELETE"])
+def slettbok(nummer):
+    try:
+        cur.execute("SELECT * FROM bøker WHERE nummer = ?", (nummer,))
+        row = cur.fetchone()
+        if row[0] is None:
+            return {"melding": "Boken finnes ikke i databasen"}
+        cur.execute(
+            "UPDATE bøker SET tittel = null, forfatter = null, isbn = null WHERE nummer = ?",
+            (nummer,),
+        )
+        con.commit()
+        return {"melding": "Boken ble slettet fra databasen"}, 200
     except sqlite3.Error as e:
         return {"error": str(e)}, 500
 
