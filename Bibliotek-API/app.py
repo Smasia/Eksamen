@@ -5,7 +5,9 @@ import sqlite3
 app = Flask(__name__)
 CORS(app)
 
-con = sqlite3.Connection("database.db", check_same_thread=False)  # connection
+con = sqlite3.Connection(
+    "/var/www/flask-application/database.db", check_same_thread=False
+)
 cur = con.cursor()  # cursor
 
 
@@ -99,12 +101,12 @@ def leggtilbok():
         tittel = request.get_json()["tittel"]
         forfatter = request.get_json()["forfatter"]
         isbn = request.get_json()["isbn"]
+        nummer = request.get_json()["nummer"]
         cur.execute("SELECT * FROM bøker WHERE tittel IS NULL")
         plass = cur.fetchone()
         if plass is None:
             return {"melding": "Det er ikke plass til flere bøker"}, 409
-        print(plass)
-        cur.execute("SELECT * FROM bøker WHERE isbn = ?", (isbn,))
+        cur.execute("SELECT * FROM bøker WHERE nummer = ?", (nummer,))
         bok = cur.fetchone()
         if bok is not None:
             return {"melding": "Boken finnes fra før"}, 409
@@ -119,4 +121,4 @@ def leggtilbok():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5010)
+    app.run()
