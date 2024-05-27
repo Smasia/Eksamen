@@ -82,13 +82,38 @@ def slettbok(nummer):
         cur.execute("SELECT * FROM bøker WHERE nummer = ?", (nummer,))
         row = cur.fetchone()
         if row[0] is None:
-            return {"melding": "Boken finnes ikke i databasen"}
+            return {"melding": "Boken finnes ikke i databasen"}, 404
         cur.execute(
-            "UPDATE bøker SET tittel = null, forfatter = null, isbn = null WHERE nummer = ?",
+            "UPDATE bøker SET tittel = NULL, forfatter = NULL, isbn = NULL WHERE nummer = ?",
             (nummer,),
         )
         con.commit()
         return {"melding": "Boken ble slettet fra databasen"}, 200
+    except sqlite3.Error as e:
+        return {"error": str(e)}, 500
+
+
+@app.route("/leggtilbok", methods=["POST"])
+def leggtilbok():
+    try:
+        tittel = request.get_json()["tittel"]
+        forfatter = request.get_json()["forfatter"]
+        isbn = request.get_json()["isbn"]
+        cur.execute("SELECT * FROM bøker WHERE tittel IS NULL")
+        plass = cur.fetchone()
+        if plass is None:
+            return {"melding": "Det er ikke plass til flere bøker"}, 409
+        print(plass)
+        cur.execute("SELECT * FROM bøker WHERE isbn = ?", (isbn,))
+        bok = cur.fetchone()
+        if bok is not None:
+            return {"melding": "Boken finnes fra før"}, 409
+        cur.execute(
+            "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
+            (tittel, forfatter, isbn, plass[3]),
+        )
+        con.commit()
+        return {"melding": f"{tittel} ble registrert"}, 200
     except sqlite3.Error as e:
         return {"error": str(e)}, 500
 
