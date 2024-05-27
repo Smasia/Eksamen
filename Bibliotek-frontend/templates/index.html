@@ -2,6 +2,19 @@
 
 {% block content %}
 
-bok
+<h2>Bøker</h2>
+<br>
+
+<ul>
+    {% for bok in bøker %}
+
+        <li>
+            <h3>{{bok.tittel}}</h3>
+            <p>{{bok.forfatter}}</p>
+            <p>{{bok.nummer}}</p>
+        </li>
+
+    {% endfor %}
+</ul>
 
 {% endblock %}
