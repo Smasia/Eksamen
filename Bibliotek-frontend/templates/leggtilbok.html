@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form action="{{ url_for('leggtilbok') }}" method="post">
+  <label for="tittel"></label>
+  <input type="text" name="tittel" id="tittel" placeholder="Skriv tittel her">
+  <label for="forfatter"></label>
+  <input type="text" name="forfatter" id="forfatter" placeholder="Skriv forfatter her">
+  <label for="isbn"></label>
+  <input type="number" name="isbn" id="isbn" placeholder="Skriv isbn her">
+  <label for="nummer"></label>
+  <input type="number" name="nummer" id="nummer" placeholder="Skriv nummer her">
+  <input type="submit" value="Legg til">
+</form>
+
+{% endblock %}
