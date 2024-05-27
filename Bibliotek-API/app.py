@@ -49,5 +49,31 @@ def bok(nummer):
         return {"error": "Fant ikke bok"}, 404
 
 
+@app.route("/filter/<streng>", methods=["GET"])
+def filter(streng):
+    try:
+
+        cur.execute(
+            "SELECT * FROM bøker WHERE tittel LIKE ? OR forfatter LIKE ?",
+            (f"%{streng}%", f"%{streng}%"),
+        )
+        bøker = cur.fetchall()
+        if not bøker:
+            return {"melding": f"Fant ingen bøker etter søkerordet: {streng}"}, 404
+        response = []
+        for bok in bøker:
+            response.append(
+                {
+                    "tittel": bok[0],
+                    "forfatter": bok[1],
+                    "isbn": bok[2],
+                    "nummer": bok[3],
+                }
+            )
+        return response, 200
+    except sqlite3.Error as e:
+        return {"error": str(e)}, 500
+
+
 if __name__ == "__main__":
     app.run(debug=True)

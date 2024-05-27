@@ -1,7 +1,11 @@
 import sqlite3
 
-con = sqlite3.connect("database.db", check_same_thread=False)
+con = sqlite3.connect(
+    "database.db",
+    check_same_thread=False,
+)
 cur = con.cursor()
+
 
 cur.execute(
     """CREATE TABLE IF NOT EXISTS bøker(
@@ -18,7 +22,7 @@ cur.executemany(
 )
 
 bokliste = []
-with open("../bøker.csv", "r") as file:
+with open("../bøker.csv", "r", encoding="utf-8") as file:
     bøker = [bok for bok in file.read().split("\n")]
     for bok in bøker:
         d_bok = bok.split(",")
