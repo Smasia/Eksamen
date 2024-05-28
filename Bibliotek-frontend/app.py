@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import requests
 from flask_cors import CORS
 import os
@@ -28,6 +28,42 @@ def barcode(nummer):
     barcode = os.path.join(path, f"{nummer}.png")
     print(barcode)
     return barcode
+
+
+@app.route("/filter", methods=["GET"])
+def filter():
+    streng = request.args.get("streng")
+    response = requests.get("http://192.168.10.27:/filter/" + streng)
+    return render_template("index.html", bøker=response.json(), streng=streng)
+
+
+@app.route("/slettbok/<nummer>", methods=["POST"])
+def slettbok(nummer):
+    requests.delete("http://192.168.10.27:/slettbok/" + nummer)
+    return redirect("/")
+
+
+@app.route("/leggtilbok", methods=["GET", "POST"])
+def leggtilbok():
+    if request.method == "GET":
+        return render_template("leggtilbok.html")
+
+    if request.method == "POST":
+        tittel = request.form.get("tittel")
+        forfatter = request.form.get("forfatter")
+        isbn = request.form.get("isbn")
+        nummer = request.form.get("nummer")
+        response = requests.post(
+            "http://192.168.10.27:/leggtilbok",
+            json={
+                "tittel": tittel,
+                "forfatter": forfatter,
+                "isbn": isbn,
+                "nummer": nummer,
+            },
+        )
+        print(response.status_code)
+        return redirect("/")
 
 
 if __name__ == "__main__":

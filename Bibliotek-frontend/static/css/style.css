@@ -3,6 +3,11 @@
   padding: 0;
 } 
 
+a {
+    text-decoration: none;
+    color: #000;
+}
+
 body {
     width: 100%;
     overflow-x: hidden;
@@ -37,4 +42,9 @@ nav h1 {
     white-space: nowrap;
     background-color: #ddd;
     list-style: none;
+    border-radius: 15px;
+}
+
+.bok {
+    border-radius: 15px;
 }

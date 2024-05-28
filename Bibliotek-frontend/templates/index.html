@@ -2,18 +2,29 @@
 
 {% block content %}
 
-<h2>Bøker</h2>
+<div class="topp">
+    <h2>Bøker</h2>
+    <form action="{{ url_for('filter') }}" method="get">
+        <input type="text" name="streng" id="streng" placeholder="Søk etter bok eller forfatter" value="{{streng}}" required>
+        <input type="submit" value="Søk">
+    </form>
+    <form action="{{ url_for('leggtilbok') }}" method="get">
+        <input type="submit" value="Legg til bok">
+    </form>
+</div>
+
 <br>
 
 <ul>
     {% for bok in bøker %}
-
         <li>
             <h3>{{bok.tittel}}</h3>
             <p>{{bok.forfatter}}</p>
             <p>{{bok.nummer}}</p>
+            <form action="{{ url_for('slettbok', nummer=bok.nummer) }}" method="post">
+                <input type="submit" value="Slett">
+            </form>
         </li>
-
     {% endfor %}
 </ul>
 
