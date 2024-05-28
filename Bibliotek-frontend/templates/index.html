@@ -4,16 +4,27 @@
 
 <div class="topp">
     <h2>Bøker</h2>
-    <form action="{{ url_for('filter') }}" method="get">
-        <input type="text" name="streng" id="streng" placeholder="Søk etter bok eller forfatter" value="{{streng}}">
-        <input type="submit" value="Søk">
-    </form>
+    <div class="søk-container">
+        <form action="{{ url_for('filter') }}" method="get">
+            <input type="text" name="streng" id="streng" placeholder="Søk etter bok eller forfatter" value="{{streng}}">
+            <input type="submit" value="Søk">
+        </form>
+        {% if streng %}
+        <form action="{{ url_for('index') }}" method="get">
+            <input type="submit" value="Fjern filter">
+        </form>
+        {% endif %}
+    </div>
     <form action="{{ url_for('leggtilbok') }}" method="get">
         <input type="submit" name="leggtilbok" value="Legg til bok">
     </form>
 </div>
 
 <br>
+
+{% if error %}
+<p class="error-melding">{{error}}</p>
+{% endif %}
 
 <ul class="bøker">
     {% for bok in bøker %}

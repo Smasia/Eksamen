@@ -47,9 +47,13 @@ def filter():
     if not streng:
         return redirect("/")
     response = requests.get("http://192.168.10.27:/filter/" + streng)
-    if response.status_code == 500 or response.status_code == 404:
+    if response.status_code == 500:
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code
+        )
+    if response.status_code == 404:
+        return render_template(
+            "index.html", error=response.json()["error"], streng=streng
         )
     return render_template("index.html", bøker=response.json(), streng=streng)
 
@@ -74,6 +78,8 @@ def leggtilbok():
         forfatter = request.form.get("forfatter")
         isbn = request.form.get("isbn")
         nummer = request.form.get("nummer")
+        if nummer == "":
+            nummer = 0
         response = requests.post(
             "http://192.168.10.27:/leggtilbok",
             json={

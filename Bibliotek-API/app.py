@@ -106,10 +106,16 @@ def leggtilbok():
         bok = cur.fetchone()
         if bok[0] is not None:
             return {"error": "Boken finnes fra før"}, 409
-        cur.execute(
+        if nummer == 0:
+            cur.execute(
             "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
-            (tittel, forfatter, isbn, nummer),
-        )
+            (tittel, forfatter, isbn, plass[3]),
+            )
+        else:
+            cur.execute(
+                "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
+                (tittel, forfatter, isbn, nummer),
+            )
         con.commit()
         return {"melding": f"{tittel} ble registrert"}, 200
     except sqlite3.Error as e:
