@@ -58,7 +58,7 @@ def filter(streng):
         )
         bøker = cur.fetchall()
         if not bøker:
-            return {"melding": f"Fant ingen bøker etter søkerordet: {streng}"}, 404
+            return {"error": f"Fant ingen bøker etter søkerordet: {streng}"}, 404
         response = []
         for bok in bøker:
             response.append(
@@ -80,7 +80,7 @@ def slettbok(nummer):
         cur.execute("SELECT * FROM bøker WHERE nummer = ?", (nummer,))
         row = cur.fetchone()
         if row[0] is None:
-            return {"melding": "Boken finnes ikke i databasen"}, 404
+            return {"error": "Boken finnes ikke i databasen"}, 404
         cur.execute(
             "UPDATE bøker SET tittel = NULL, forfatter = NULL, isbn = NULL WHERE nummer = ?",
             (nummer,),
@@ -101,11 +101,11 @@ def leggtilbok():
         cur.execute("SELECT * FROM bøker WHERE tittel IS NULL")
         plass = cur.fetchone()
         if plass is None:
-            return {"melding": "Det er ikke plass til flere bøker"}, 409
+            return {"error": "Det er ikke plass til flere bøker"}, 409
         cur.execute("SELECT * FROM bøker WHERE nummer = ?", (nummer,))
         bok = cur.fetchone()
         if bok[0] is not None:
-            return {"melding": "Boken finnes fra før"}, 409
+            return {"error": "Boken finnes fra før"}, 409
         cur.execute(
             "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
             (tittel, forfatter, isbn, nummer),

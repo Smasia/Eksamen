@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{status}}</h1>
+<br>
+<p>{{error}}</p>
+<a href="{{ url_for('index') }}" id="aerror">Gå tilbake til hjemmesiden</a>
+
+{% endblock %}

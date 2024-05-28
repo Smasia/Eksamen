@@ -134,3 +134,15 @@ nav h1 {
 .leggtilbok input[type="submit"] {
     margin-top: 20px;
 }
+
+#aerror {
+    text-decoration: underline;
+}
+
+#aerror:visited {
+    color: #0000FF;
+}
+
+#aerror:hover {
+    color: #FF0000;
+}

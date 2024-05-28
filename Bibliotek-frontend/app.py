@@ -10,6 +10,10 @@ CORS(app)
 @app.route("/", methods=["GET"])
 def index():
     response = requests.get("http://192.168.10.27/")
+    if response.status_code == 500:
+        return render_template(
+            "error.html", error=response.json()["error"], status=response.status_code
+        )
     return render_template("index.html", bøker=response.json())
 
 
@@ -18,10 +22,14 @@ def bok(nummer):
     if nummer == 0:
         nummer = request.args.get("nummer")
     if int(nummer) < 1 or int(nummer) > 51:
-        return {"nummer": "Bok nummer utenfor rekkevidden"}, 404
-    print(nummer)
+        return render_template(
+            "error.html", error="Bok nummer utenfor rekkevidden", status=404
+        )
     response = requests.get("http://192.168.10.27/bok/" + str(nummer))
-    print(response.json())
+    if response.status_code == 500 or response.status_code == 404:
+        return render_template(
+            "error.html", error=response.json()["error"], status=response.status_code
+        )
     return render_template("bok.html", bok=response.json())
 
 
@@ -37,12 +45,20 @@ def barcode(nummer):
 def filter():
     streng = request.args.get("streng")
     response = requests.get("http://192.168.10.27:/filter/" + streng)
+    if response.status_code == 500 or response.status_code == 404:
+        return render_template(
+            "error.html", error=response.json()["error"], status=response.status_code
+        )
     return render_template("index.html", bøker=response.json(), streng=streng)
 
 
 @app.route("/slettbok/<nummer>", methods=["POST"])
 def slettbok(nummer):
-    requests.delete("http://192.168.10.27:/slettbok/" + nummer)
+    response = requests.delete("http://192.168.10.27:/slettbok/" + nummer)
+    if response.status_code == 500 or response.status_code == 404:
+        return render_template(
+            "error.html", error=response.json()["error"], status=response.status_code
+        )
     return redirect("/")
 
 
@@ -56,7 +72,7 @@ def leggtilbok():
         forfatter = request.form.get("forfatter")
         isbn = request.form.get("isbn")
         nummer = request.form.get("nummer")
-        requests.post(
+        response = requests.post(
             "http://192.168.10.27:/leggtilbok",
             json={
                 "tittel": tittel,
@@ -65,6 +81,12 @@ def leggtilbok():
                 "nummer": nummer,
             },
         )
+        if response.status_code == 500 or response.status_code == 409:
+            return render_template(
+                "error.html",
+                error=response.json()["error"],
+                status=response.status_code,
+            )
         return redirect("/")
 
 
