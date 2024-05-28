@@ -44,6 +44,8 @@ def barcode(nummer):
 @app.route("/filter", methods=["GET"])
 def filter():
     streng = request.args.get("streng")
+    if not streng:
+        return redirect("/")
     response = requests.get("http://192.168.10.27:/filter/" + streng)
     if response.status_code == 500 or response.status_code == 404:
         return render_template(

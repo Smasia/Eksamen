@@ -2,15 +2,19 @@
 
 {% block content %}
 
+<div class="tilbake">
+    <a href="{{ url_for('index') }}">Tilbake</a>
+</div>
+
 <form action="{{ url_for('leggtilbok') }}" method="post" class="leggtilbok">
   <label for="tittel">Tittel</label>
-  <input type="text" name="tittel" id="tittel" placeholder="Skriv tittel her">
+  <input type="text" name="tittel" id="tittel" placeholder="Skriv tittel her" required>
   <label for="forfatter">Forfatter</label>
-  <input type="text" name="forfatter" id="forfatter" placeholder="Skriv forfatter her">
+  <input type="text" name="forfatter" id="forfatter" placeholder="Skriv forfatter her" required>
   <label for="isbn">ISBN</label>
-  <input type="number" name="isbn" id="isbn" placeholder="Skriv isbn her">
+  <input type="number" name="isbn" id="isbn" placeholder="Skriv isbn her" required>
   <label for="nummer">Nummer</label>
-  <input type="number" name="nummer" id="nummer" placeholder="Skriv nummer her" min="1" max="51">
+  <input type="number" name="nummer" id="nummer" placeholder="Skriv nummer her" min="1" max="51" required>
   <input type="submit" value="Legg til">
 </form>
 
