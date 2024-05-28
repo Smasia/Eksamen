@@ -48,3 +48,24 @@ nav h1 {
 .bok {
     border-radius: 15px;
 }
+
+.leggtilbok {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.leggtilbok label {
+    margin-top: 30px;
+    font-size: 30px;
+}
+
+.leggtilbok input {
+    height: 30px;
+    width: 50%;
+    font-size: 20px;
+}
+
+.leggtilbok input[type="submit"] {
+    margin-top: 20px;
+}
