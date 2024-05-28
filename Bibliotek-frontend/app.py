@@ -13,9 +13,10 @@ def index():
     return render_template("index.html", bøker=response.json())
 
 
-@app.route("/bok/", methods=["GET"])
-def bok():
-    nummer = request.args.get("nummer")
+@app.route("/bok/<int:nummer>", methods=["GET"])
+def bok(nummer):
+    if nummer == 0:
+        nummer = request.args.get("nummer")
     print(nummer)
     response = requests.get("http://192.168.10.27/bok/" + str(nummer))
     print(response.json())
@@ -53,7 +54,7 @@ def leggtilbok():
         forfatter = request.form.get("forfatter")
         isbn = request.form.get("isbn")
         nummer = request.form.get("nummer")
-        response = requests.post(
+        requests.post(
             "http://192.168.10.27:/leggtilbok",
             json={
                 "tittel": tittel,
@@ -62,7 +63,6 @@ def leggtilbok():
                 "nummer": nummer,
             },
         )
-        print(response.status_code)
         return redirect("/")
 
 
