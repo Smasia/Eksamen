@@ -9,13 +9,13 @@
         <input type="submit" value="Søk">
     </form>
     <form action="{{ url_for('leggtilbok') }}" method="get">
-        <input type="submit" value="Legg til bok">
+        <input type="submit" name="leggtilbok" value="Legg til bok">
     </form>
 </div>
 
 <br>
 
-<ul>
+<ul class="bøker">
     {% for bok in bøker %}
         <li>
             <a href="{{ url_for('bok', nummer=bok.nummer) }}">

@@ -17,6 +17,8 @@ def index():
 def bok(nummer):
     if nummer == 0:
         nummer = request.args.get("nummer")
+    if int(nummer) < 1 or int(nummer) > 51:
+        return {"nummer": "Bok nummer utenfor rekkevidden"}, 404
     print(nummer)
     response = requests.get("http://192.168.10.27/bok/" + str(nummer))
     print(response.json())

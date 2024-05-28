@@ -28,7 +28,15 @@ nav {
 }
 
 nav h1 {
-    font-size: 55px;
+    font-size: 300%;
+}
+
+#scan {
+    width: 25%;
+}
+
+#nummer {
+    width: 100%;
 }
 
 .content {
@@ -43,7 +51,41 @@ nav h1 {
     background-color: #ddd;
     list-style: none;
     border-radius: 15px;
+    padding: 10px;
 }
+
+.topp {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.topp h2 {
+    font-size: 50px; 
+}
+
+.topp input {
+    height: 30px;
+    font-size: 20px;
+}
+
+.topp input[name="streng"] {
+    height: 30px;
+    width: 240px;
+    font-size: 20px;
+}
+
+.topp input[name="leggtilbok"] {
+    margin-top: 10px;
+}
+
+
+.bøker {
+    display: grid;
+    column-gap: 40px;
+    grid-template-columns: auto auto;
+}
+
 
 .bok {
     border: 2px solid  #000;

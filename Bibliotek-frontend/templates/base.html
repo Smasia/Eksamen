@@ -12,8 +12,8 @@
         <a href="{{ url_for('index') }}">
             <h1>Mitt Bibliotek</h1>
         </a>
-        <form action="{{ url_for('bok', nummer=0) }}" method="get">
-            <input type="number" name="nummer" id="nummer" placeholder="Scan bok">
+        <form action="{{ url_for('bok', nummer=0) }}" method="get" id="scan">
+            <input type="number" name="nummer" id="nummer" placeholder="Scan bok" size="50%">
         </form>
     </nav>
 
