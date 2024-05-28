@@ -46,7 +46,30 @@ nav h1 {
 }
 
 .bok {
+    border: 2px solid  #000;
     border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.bok h2 {
+    font-size: 50px;
+}
+
+.bok p {
+    margin-top: 10px;
+}
+
+.bok img {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.bok input[type="submit"] {
+    width: 200px;
+    height: 30px;
+    font-size: 20px;
 }
 
 .leggtilbok {

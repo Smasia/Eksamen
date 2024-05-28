@@ -5,8 +5,8 @@
 <div class="bok">
     <h2>{{bok.tittel}}</h2>
     <p>{{bok.forfatter}}</p>
-    <p>{{bok.nummer}}</p>
-    <p>{{bok.isbn}}</p>
+    <p>boknummer: {{bok.nummer}}</p>
+    <p>ISBN: {{bok.isbn}}</p>
     <img src="{{ url_for('static', filename='barcode/' + bok.nummer + '.png') }}" alt="barcode for bok: {{bok.nummer}}">
     <form action="{{ url_for('slettbok', nummer=bok.nummer) }}" method="post">
         <input type="submit" value="Slett">
