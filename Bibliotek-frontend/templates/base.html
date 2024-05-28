@@ -23,5 +23,35 @@
         {% endblock %}
     </div>
     
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            let barcode = '';
+            let timeout;
+
+            document.addEventListener('keypress', function (e) {
+                clearTimeout(timeout);
+                if (e.key === 'Enter') {
+                    if (barcode.length > 0) {
+                        handleBarcode(barcode);
+                        barcode = '';
+                    }
+                } else {
+                    barcode += e.key;
+
+                    timeout = setTimeout(() => {
+                        barcode = '';
+                    }, 500);
+                }
+            });
+
+            function handleBarcode(scannedBarcode) {
+                const barcodeInput = document.getElementById('nummer');
+                barcodeInput.value = scannedBarcode;
+                const form = document.getElementById('scan');
+                form.submit();
+            }
+        });
+    </script>
+
 </body>
 </html>
