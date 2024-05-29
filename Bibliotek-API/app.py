@@ -73,6 +73,7 @@ def filter(streng):
                     "forfatter": bok[1],
                     "isbn": bok[2],
                     "nummer": bok[3],
+                    "låntaker": bok[4] if bok[4] is not None else 0,
                 }
             )
         return response, 200
@@ -167,9 +168,15 @@ def bruker():
     cur.execute("SELECT * FROM låntakere WHERE nummer = ?", (nummer,))
     result = cur.fetchone()
     if result != None:
-        brukere = {"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}
+        brukere = {
+            "fornavn": result[1],
+            "etternavn": result[2],
+            "nummer": result[0],
+        }
+        if result[1] == None:
+            return {"error": "Fant ikke bruker"}
         return brukere, 200
-    brukere = {"error": "Fant ikke bruker"}
+    brukere = {"error": "Fant ikke bruker"}, 404
     return brukere, 404
 
 
@@ -178,6 +185,10 @@ def lån_bok():
     bok_id = request.get_json()["bok_id"]
     bruker_id = request.get_json()["bruker_id"]
     dato = datetime.datetime.now()
+    cur.execute("SELECT * FROM bøker WHERE nummer = ?", (bok_id,))
+    result = cur.fetchone()
+    if result[4] != None:
+        return {"error": "Bok er allerede i lån"}, 409
     cur.execute(
         "UPDATE bøker SET låntaker = ?, dato = ? WHERE nummer = ?",
         (bruker_id, dato, bok_id),

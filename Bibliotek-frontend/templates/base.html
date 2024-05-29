@@ -17,23 +17,23 @@
             <input type="number" name="nummer" id="nummer" placeholder="Scan bok" size="50%" min="1" max="51" required>
         </form>
 
-        <form action="{{ url_for('registrer') }}" method="get">
+        <form action="{{ url_for('registrer') }}" method="get" class="linker">
             <input type="submit" value="Registrer">
         </form>
 
-        <form action="{{ url_for('brukere') }}" method="get">
+        <form action="{{ url_for('brukere') }}" method="get" class="linker">
             <input type="submit" value="Se brukere">
         </form>
 
-        <form action="{{ url_for('lån_bok') }}" method="get">
+        <form action="{{ url_for('lån_bok') }}" method="get" class="linker">
             <input type="submit" value="Lån bok">
         </form>
 
-        <form action="{{ url_for('lever_bok') }}">
+        <form action="{{ url_for('lever_bok') }}" method="get" class="linker">
             <input type="submit" value="lever bok">
         </form>
 
-        <form action="{{ url_for('aktive_lånere') }}">
+        <form action="{{ url_for('aktive_lånere') }}" method="get" class="linker">
             <input type="submit" value="Se låntakere">
         </form>
     </nav>
@@ -43,36 +43,6 @@
 
         {% endblock %}
     </div>
-    
-    <!-- <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            let barcode = '';
-            let timeout;
-
-            document.addEventListener('keypress', function (e) {
-                clearTimeout(timeout);
-                if (e.key === 'Enter') {
-                    if (barcode.length > 0) {
-                        handleBarcode(barcode);
-                        barcode = '';
-                    }
-                } else {
-                    barcode += e.key;
-
-                    timeout = setTimeout(() => {
-                        barcode = '';
-                    }, 500);
-                }
-            });
-
-            function handleBarcode(scannedBarcode) {
-                const barcodeInput = document.getElementById('nummer');
-                barcodeInput.value = scannedBarcode;
-                const form = document.getElementById('scan');
-                form.submit();
-            }
-        });
-    </script> -->
 
 </body>
 </html>

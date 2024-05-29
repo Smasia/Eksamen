@@ -31,8 +31,21 @@ nav h1 {
     font-size: 300%;
 }
 
+.linker {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+nav .linker input {
+    margin-top: 20px;
+    width: 40%;
+    height: 40px;
+    font-size: 17px;
+}
+
 #scan {
-    width: 25%;
+    width: 27%;
 }
 
 #scan #nummer {
@@ -42,6 +55,17 @@ nav h1 {
 .content {
     margin-left: 20%;
     padding: 100px;
+}
+
+.content form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.content form label {
+    margin-top: 15px;
 }
 
 .bøker {
@@ -90,6 +114,11 @@ nav h1 {
     display: flex;
     flex-direction: row;
     align-items: center;
+}
+
+.søk-container form {
+    display: flex;
+    flex-direction: row;
 }
 
 .søk-container form input[value="Fjern filter"] {
@@ -197,3 +226,4 @@ nav h1 {
     border: 1px solid #000;
     border-radius: 15px;
 }
+

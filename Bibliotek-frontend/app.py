@@ -134,6 +134,7 @@ def lån_bruker():
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code
         )
+    print(response.json())
     return render_template("lån_bok.html", bruker=response.json())
 
 
@@ -145,10 +146,16 @@ def lån_bok():
     if request.method == "POST":
         bruker_id = request.form.get("bruker_id")
         bok_id = request.form.get("bok_id")
-        requests.post(
+        response = requests.post(
             "http://192.168.10.27/lån_bok",
             json={"bok_id": bok_id, "bruker_id": bruker_id},
         )
+        if response.status_code == 500 or response.status_code == 409:
+            return render_template(
+                "error.html",
+                error=response.json()["error"],
+                status=response.status_code,
+            )
         return redirect("/")
 
 
@@ -160,10 +167,12 @@ def hent_bok():
         "http://192.168.10.27/bruker", json={"nummer": bruker_id}
     ).json()
     response = requests.get("http://192.168.10.27/bok/" + str(nummer))
-    if response.status_code == 500 or response.status_code == 404:
+    print(response.status_code)
+    if response.status_code == 500 or response.status_code == 409:
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code
         )
+
     return render_template("lån_bok.html", bruker=bruker, bok=response.json())
 
 
