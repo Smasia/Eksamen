@@ -31,18 +31,7 @@ def logget_inn(func):
 
 
 
-@app.route("/registrer", methods=["GET", "POST"])
-def registrer():
-    if request.method == "GET":
-        return render_template("registrer.html")
 
-    if request.method == "POST":
-        navn = request.form.get("navn")
-        passord = request.form.get("passord")
-        requests.post(
-            "http://192.168.10.27/registrer", json={"navn": navn, "passord": passord}
-        )
-        return redirect("/logg_inn")
 
 
 @app.route("/logg_inn", methods=["GET", "POST"])

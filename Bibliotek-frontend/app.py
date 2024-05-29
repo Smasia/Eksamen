@@ -98,5 +98,56 @@ def leggtilbok():
         return redirect("/")
 
 
+@app.route("/registrer", methods=["GET", "POST"])
+def registrer():
+    if request.method == "GET":
+        return render_template("registrer.html")
+
+    if request.method == "POST":
+        navn = request.form.get("navn")
+        etternavn = request.form.get("etternavn")
+        nummer = request.form.get("nummer")
+        requests.post(
+            "http://192.168.10.27/registrer",
+            json={"navn": navn, "etternavn": etternavn, "nummer": nummer},
+        )
+        return redirect("/")
+
+
+@app.route("/brukere", methods=["GET"])
+def brukere():
+    reponse = requests.get("http://192.168.10.27/brukere")
+    return render_template("brukere.html", brukere=reponse.json())
+
+
+@app.route("/lån_bok/<bok_id>", methods=["POST"])
+def lån_bok(bok_id):
+    bruker_id = request.form.get("bruker_id")
+    requests.post(
+        "http://192.168.10.27/lån_bok",
+        json={"bok_id": bok_id, "bruker_id": bruker_id},
+    )
+    return redirect("/")
+
+
+@app.route("/lever_bok", methods=["GET", "POST"])
+def lever_bok():
+    if request.method == "GET":
+        return render_template("lever_bok.html")
+
+    if request.method == "POST":
+        bok_id = request.form.get("bok_id")
+        requests.post("http://192.168.10.27/lever_bok", json={"bok_id": bok_id})
+        return redirect("/")
+
+
+@app.route("/aktive_lånere", methods=["GET"])
+def aktive_lånere():
+    response = requests.get("http://192.168.10.27/aktive_lånere")
+    return render_template(
+        "aktive_lånere.html", bøker=response[0], brukere=response[1]
+    )
+
+
 if __name__ == "__main__":
     app.run(debug=True)

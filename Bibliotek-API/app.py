@@ -155,6 +155,15 @@ def brukere():
     return brukere, 200
 
 
+@app.route("/bruker", methods=["GET"])
+def bruker():
+    nummer = request.get_json()["nummer"]
+    cur.execute("SELECT * FROM låntakere WHERE nummer = ?", (nummer,))
+    result = cur.fetchone()
+    brukere = [{"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}]
+    return brukere, 200
+
+
 @app.route("/lån_bok", methods=["POST"])
 def lån_bok():
     bok_id = request.get_json()["bok_id"]
@@ -183,7 +192,7 @@ def lever_bok():
 def aktive_lånere():
     cur.execute("SELECT * FROM bøker WHERE låntaker IS NOT NULL AND dato IS NOT NULL")
     bøker = cur.fetchall()
-    cur.execute("SELECT * FROM brukere")
+    cur.execute("SELECT * FROM låntakere")
     brukere = cur.fetchall()
     bokliste = []
     brukerliste = []

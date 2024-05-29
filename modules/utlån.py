@@ -44,10 +44,7 @@ def lån_bok(bok_id):
     return redirect("/index")
 
 
-@app.route("/lever_bok/<låne_id>", methods=["POST"])
-def lever_bok(låne_id):
-    requests.post("http://192.168.10.27/lever_bok", json={"id": låne_id})
-    return redirect("/index")
+
 
 
 @app.route("/lånte_bøker", methods=["GET"])
