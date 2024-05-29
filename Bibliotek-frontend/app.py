@@ -126,14 +126,26 @@ def bruker(nummer):
     return render_template("bruker.html", bruker=response.json())
 
 
-@app.route("/lån_bok/<bok_id>", methods=["POST"])
-def lån_bok(bok_id):
-    bruker_id = request.form.get("bruker_id")
-    requests.post(
-        "http://192.168.10.27/lån_bok",
-        json={"bok_id": bok_id, "bruker_id": bruker_id},
-    )
-    return redirect("/")
+@app.route("/lån_bruker", methods=["POST"])
+def lån_bruker():
+    nummer = request.form.get("nummer")
+    response = requests.get("http://192.168.10.27/bruker", json={"nummer": nummer})
+    return render_template("lån_bok.html", bruker=response.json())
+
+
+@app.route("/lån_bok>", methods=["GET", "POST"])
+def lån_bok():
+    if request.method == "GET":
+        return render_template("lån_bok.html")
+
+    if request.method == "POST":
+        bruker_id = request.form.get("bruker_id")
+        bok_id = request.form.get("bok_id")
+        requests.post(
+            "http://192.168.10.27/lån_bok",
+            json={"bok_id": bok_id, "bruker_id": bruker_id},
+        )
+        return redirect("/")
 
 
 @app.route("/lever_bok", methods=["GET", "POST"])

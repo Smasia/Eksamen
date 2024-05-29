@@ -4,11 +4,11 @@
 
 <form action="{{ url_for('registrer') }}" method="post">
     <label for="fornavn">Fornavn:</label>
-    <input type="text" name="fornavn" id="fornavn" placeholder="Fornavn">
+    <input type="text" name="fornavn" id="fornavn" placeholder="Fornavn" required>
     <label for="etternavn">Etternavn:</label>
-    <input type="text" name="etternavn" id="etternavn">
+    <input type="text" name="etternavn" id="etternavn" required>
     <label for="nummer">Nummer:</label>
-    <input type="text" name="nummer" id="nummer">
+    <input type="number" name="nummer" id="nummer" min="1000" max="1020" required>
     <input type="submit" value="Register">
 </form>
 
