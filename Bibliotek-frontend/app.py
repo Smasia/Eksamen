@@ -22,8 +22,6 @@ def bok(nummer, bruker_id):
     bruker = requests.get("http://192.168.10.27/bruker", json={"nummer": bruker_id})
     if nummer == 0:
         nummer = request.args.get("nummer")
-    # if bruker_id == None:
-    #     bruker_id = 0
     if int(nummer) < 1 or int(nummer) > 51:
         return render_template(
             "error.html", error="Bok nummer utenfor rekkevidden", status=404
@@ -33,7 +31,6 @@ def bok(nummer, bruker_id):
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code
         )
-    print(bruker.json())
     return render_template("bok.html", bok=response.json(), bruker=bruker.json())
 
 
@@ -41,7 +38,6 @@ def bok(nummer, bruker_id):
 def barcode(nummer):
     path = "E:\\Eksamen\\Bibliotek-frontend\\static\\barcode\\"
     barcode = os.path.join(path, f"{nummer}.png")
-    print(barcode)
     return barcode
 
 
@@ -134,7 +130,6 @@ def bruker(nummer):
 def lån_bruker():
     nummer = request.form.get("nummer")
     response = requests.get("http://192.168.10.27/bruker", json={"nummer": nummer})
-    print(response.json())
     if "error" in response.json():
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code

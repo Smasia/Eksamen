@@ -166,7 +166,7 @@ def bruker():
     nummer = request.get_json()["nummer"]
     cur.execute("SELECT * FROM låntakere WHERE nummer = ?", (nummer,))
     result = cur.fetchone()
-    if result[1] != None:
+    if result != None:
         brukere = {"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}
         return brukere, 200
     brukere = {"error": "Fant ikke bruker"}
