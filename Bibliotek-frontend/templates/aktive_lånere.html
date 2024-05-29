@@ -1,7 +1,30 @@
 {% extends 'base.html' %}
 
-{% block contetn %}
+{% block content %} 
 
-<p>aktive_lånere side</p>
+
+
+<ul class="utlånte-bøker">
+{% for bruker in brukere %}
+    {% for bok in bøker %}
+
+    {% if bruker.nummer == bok.låntaker %}
+    <li class="utlånt-bok">
+        <h4>Låntaker:</h4>
+        <p>{{bruker.fornavn}} {{bruker.etternavn}}</p>
+        <p>{{bruker.nummer}}</p>
+        <br>
+
+        <h4>Bok:</h4>
+        <h1>{{bok.tittel}}</h1>
+        <p>{{bok.forfatter}}</p>
+        <p>ISBN: {{bok.isbn}}</p>
+        <p>Nummer: {{bok.nummer}}</p>
+    </li>
+    {% endif %}
+
+    {% endfor %}
+{% endfor %}
+</ul>
 
 {% endblock %}

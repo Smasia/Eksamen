@@ -44,7 +44,7 @@ nav h1 {
     padding: 100px;
 }
 
-.content li {
+.bøker li {
     width: 100%;
     margin-bottom: 5%;
     white-space: nowrap;
@@ -178,4 +178,21 @@ nav h1 {
     flex-direction: column;
     align-items: center;
     margin-top: 20px;
+}
+
+.utlånte-bøker {
+    width: 100%;
+    display: grid;
+    column-gap: 40px;
+    grid-template-columns: 50% 50%;
+}
+
+.utlånt-bok {
+    margin-top: 30px;
+    padding: 10px;
+    width: 80%;
+    list-style: none;
+    background-color: #eee;
+    border: 1px solid #000;
+    border-radius: 15px;
 }

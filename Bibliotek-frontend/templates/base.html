@@ -12,20 +12,29 @@
         <a href="{{ url_for('index') }}">
             <h1>Mitt Bibliotek</h1>
         </a>
+
         <form action="{{ url_for('bok', nummer=0) }}" method="get" id="scan">
             <input type="number" name="nummer" id="nummer" placeholder="Scan bok" size="50%" min="1" max="51" required>
         </form>
+
         <form action="{{ url_for('registrer') }}" method="get">
             <input type="submit" value="Registrer">
         </form>
+
         <form action="{{ url_for('brukere') }}" method="get">
             <input type="submit" value="Se brukere">
         </form>
+
         <form action="{{ url_for('lån_bok') }}" method="get">
             <input type="submit" value="Lån bok">
         </form>
+
         <form action="{{ url_for('lever_bok') }}">
             <input type="submit" value="lever bok">
+        </form>
+
+        <form action="{{ url_for('aktive_lånere') }}">
+            <input type="submit" value="Se låntakere">
         </form>
     </nav>
 

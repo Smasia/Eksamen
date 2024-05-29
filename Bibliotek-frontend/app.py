@@ -162,7 +162,6 @@ def lever_bok():
 @app.route("/aktive_lånere", methods=["GET"])
 def aktive_lånere():
     response = requests.get("http://192.168.10.27/aktive_lånere")
-    print(response.json())
     return render_template(
         "aktive_lånere.html", bøker=response.json()[0], brukere=response.json()[1]
     )
