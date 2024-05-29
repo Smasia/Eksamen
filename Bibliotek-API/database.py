@@ -12,7 +12,18 @@ cur.execute(
             tittel TEXT,
             forfatter TEXT,
             isbn INTEGER,
-            nummer INTEGER UNIQUE NOT NULL
+            nummer INTEGER UNIQUE NOT NULL,
+            låntaker INTEGER,
+            dato TEXT
+)"""
+)
+con.commit()
+
+cur.execute(
+    """CREATE TABLE låntakere(
+            nummer INTEGER PRIMARY KEY NOT NULL,
+            fornavn TEXT,
+            etternavn TEXT
 )"""
 )
 con.commit()
@@ -20,6 +31,13 @@ con.commit()
 cur.executemany(
     "INSERT INTO bøker(nummer) VALUES(?)", [(nummer,) for nummer in range(1, 52)]
 )
+con.commit()
+
+cur.executemany(
+    "INSERT INTO låntakere(nummer) VALUES(?)",
+    [(nummer,) for nummer in range(1000, 1021)],
+)
+con.commit()
 
 bokliste = []
 with open("./bøker.csv", "r", encoding="utf-8") as file:
@@ -35,7 +53,6 @@ with open("./bøker.csv", "r", encoding="utf-8") as file:
             }
         )
 
-# jeg lager 50 tomme rader, et valg jeg tar for å unngå komplisert kode for å ha et maks antall bøker på 50
 cur.executemany(
     "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
     [(bok["tittel"], bok["forfatter"], bok["isbn"], bok["nummer"]) for bok in bokliste],
