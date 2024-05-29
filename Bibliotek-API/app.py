@@ -166,11 +166,11 @@ def bruker():
     nummer = request.get_json()["nummer"]
     cur.execute("SELECT * FROM låntakere WHERE nummer = ?", (nummer,))
     result = cur.fetchone()
-    if result is not None:
+    if result[1] != None:
         brukere = {"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}
-    else:
-        brukere = {"melding": "Fant ikke bruker"}
-    return brukere, 200
+        return brukere, 200
+    brukere = {"error": "Fant ikke bruker"}
+    return brukere, 404
 
 
 @app.route("/lån_bok", methods=["POST"])

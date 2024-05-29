@@ -134,6 +134,11 @@ def bruker(nummer):
 def lån_bruker():
     nummer = request.form.get("nummer")
     response = requests.get("http://192.168.10.27/bruker", json={"nummer": nummer})
+    print(response.json())
+    if "error" in response.json():
+        return render_template(
+            "error.html", error=response.json()["error"], status=response.status_code
+        )
     return render_template("lån_bok.html", bruker=response.json())
 
 
