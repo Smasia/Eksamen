@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+
+<p>{{bruker.fornavn}} {{bruker.etternavn}}</p>
+<p>{{bruker.nummer}}</p>
+<img src="{{ url_for('static', filename='barcode/' + bruker.nummer|string + '.png') }}" alt="">
+<img src="{{ url_for('static', filename='bilder/' + bruker.nummer|string + '.jpg') }}" alt="">
+
+
+
+{% endblock %}

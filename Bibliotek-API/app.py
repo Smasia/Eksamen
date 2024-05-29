@@ -146,7 +146,9 @@ def registrer():
 
 @app.route("/brukere", methods=["GET"])
 def brukere():
-    cur.execute("SELECT * FROM låntakere")
+    cur.execute(
+        "SELECT * FROM låntakere WHERE fornavn IS NOT NULL AND etternavn IS NOT NULL"
+    )
     result = cur.fetchall()
     brukere = []
     for bruker in result:
@@ -161,7 +163,7 @@ def bruker():
     nummer = request.get_json()["nummer"]
     cur.execute("SELECT * FROM låntakere WHERE nummer = ?", (nummer,))
     result = cur.fetchone()
-    brukere = [{"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}]
+    brukere = {"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}
     return brukere, 200
 
 

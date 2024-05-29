@@ -116,8 +116,14 @@ def registrer():
 
 @app.route("/brukere", methods=["GET"])
 def brukere():
-    reponse = requests.get("http://192.168.10.27/brukere")
-    return render_template("brukere.html", brukere=reponse.json())
+    response = requests.get("http://192.168.10.27/brukere")
+    return render_template("brukere.html", brukere=response.json())
+
+
+@app.route("/bruker/<nummer>", methods=["GET"])
+def bruker(nummer):
+    response = requests.get("http://192.168.10.27/bruker", json={"nummer": nummer})
+    return render_template("bruker.html", bruker=response.json())
 
 
 @app.route("/lån_bok/<bok_id>", methods=["POST"])

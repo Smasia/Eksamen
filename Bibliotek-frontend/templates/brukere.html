@@ -1,7 +1,13 @@
 {% extends 'base.html' %}
 
-{% block contetn %}
+{% block content %}
 
-<p>brukere side</p>
+{% for bruker in brukere %}
+
+<a href="{{ url_for('bruker', nummer=bruker.nummer) }}">
+    <p>{{bruker.fornavn}} {{bruker.etternavn}}</p>
+</a>
+
+{% endfor %}
 
 {% endblock %}

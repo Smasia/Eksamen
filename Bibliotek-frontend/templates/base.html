@@ -15,6 +15,15 @@
         <form action="{{ url_for('bok', nummer=0) }}" method="get" id="scan">
             <input type="number" name="nummer" id="nummer" placeholder="Scan bok" size="50%" min="1" max="51" required>
         </form>
+        <form action="{{ url_for('registrer') }}" method="get">
+            <input type="submit" value="Registrer">
+        </form>
+        <form action="{{ url_for('brukere') }}" method="get">
+            <input type="submit" value="Se brukere">
+        </form>
+        <form action="{{ url_for('lever_bok') }}">
+            <input type="submit" value="lever bok">
+        </form>
     </nav>
 
     <div class="content">
@@ -23,7 +32,7 @@
         {% endblock %}
     </div>
     
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function () {
             let barcode = '';
             let timeout;
@@ -51,7 +60,7 @@
                 form.submit();
             }
         });
-    </script>
+    </script> -->
 
 </body>
 </html>
