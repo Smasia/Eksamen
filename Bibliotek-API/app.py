@@ -102,14 +102,17 @@ def leggtilbok():
         plass = cur.fetchone()
         if plass is None:
             return {"error": "Det er ikke plass til flere bøker"}, 409
-        cur.execute("SELECT * FROM bøker WHERE nummer = ?", (nummer if nummer != 0 else plass[3],))
+        cur.execute(
+            "SELECT * FROM bøker WHERE nummer = ?",
+            (nummer if nummer != 0 else plass[3],),
+        )
         bok = cur.fetchone()
         if bok[0] is not None:
             return {"error": "Boken finnes fra før"}, 409
         if nummer == 0:
             cur.execute(
-            "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
-            (tittel, forfatter, isbn, plass[3]),
+                "UPDATE bøker SET tittel = ?, forfatter = ?, isbn = ? WHERE nummer = ?",
+                (tittel, forfatter, isbn, plass[3]),
             )
         else:
             cur.execute(
