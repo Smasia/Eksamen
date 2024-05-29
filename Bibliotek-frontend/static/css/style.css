@@ -44,14 +44,21 @@ nav h1 {
     padding: 100px;
 }
 
+.bøker {
+    display: grid;
+    column-gap: 10%;
+    grid-template-columns: 45% 45%;
+}
+
 .bøker li {
-    width: 100%;
+    width: calc(100% - 10px);
     margin-bottom: 5%;
     white-space: nowrap;
     background-color: #ddd;
     list-style: none;
     border-radius: 15px;
     padding: 10px;
+    padding-right: 0;
 }
 
 .topp {
@@ -87,13 +94,6 @@ nav h1 {
 
 .søk-container form input[value="Fjern filter"] {
     margin-left: 10px;
-}
-
-
-.bøker {
-    display: grid;
-    column-gap: 40px;
-    grid-template-columns: auto auto;
 }
 
 .tilbake {
@@ -183,14 +183,15 @@ nav h1 {
 .utlånte-bøker {
     width: 100%;
     display: grid;
-    column-gap: 40px;
-    grid-template-columns: 50% 50%;
+    column-gap: 10%;
+    grid-template-columns: 45% 45%;
 }
 
 .utlånt-bok {
     margin-top: 30px;
     padding: 10px;
-    width: 80%;
+    padding-right: 0;
+    width: calc(100% - 10px);
     list-style: none;
     background-color: #eee;
     border: 1px solid #000;
