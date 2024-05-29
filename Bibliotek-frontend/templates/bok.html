@@ -11,6 +11,10 @@
     <p>{{bok.forfatter}}</p>
     <p>boknummer: {{bok.nummer}}</p>
     <p>ISBN: {{bok.isbn}}</p>
+    {% if bok.låntaker %}
+    <p>Lånes av: {{bruker.fornavn}} {{bruker.etternavn}}</p>
+    <p>Dato for lån: {{bok.dato}}</p>
+    {% endif %}
     <img src="{{ url_for('static', filename='barcode/' + bok.nummer + '.png') }}" alt="barcode for bok: {{bok.nummer}}">
     <form action="{{ url_for('slettbok', nummer=bok.nummer) }}" method="post">
         <input type="submit" value="Slett">

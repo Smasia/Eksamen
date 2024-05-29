@@ -29,10 +29,15 @@
 <ul class="bøker">
     {% for bok in bøker %}
         <li>
-            <a href="{{ url_for('bok', nummer=bok.nummer) }}">
+            <a href="{{ url_for('bok', nummer=bok.nummer, bruker_id=bok.låntaker) }}">
                 <h3>{{bok.tittel}}</h3>
                 <p>{{bok.forfatter}}</p>
                 <p>{{bok.nummer}}</p>
+                {% if bok.låntaker %}
+                <p>status: lånes</p>
+                {% else %}
+                <p>status: ledig</p>
+                {% endif %}
             </a>
             <form action="{{ url_for('slettbok', nummer=bok.nummer) }}" method="post">
                 <input type="submit" value="Slett">

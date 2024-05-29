@@ -17,10 +17,13 @@ def index():
     return render_template("index.html", bøker=response.json())
 
 
-@app.route("/bok/<int:nummer>", methods=["GET"])
-def bok(nummer):
+@app.route("/bok/<int:nummer>/<int:bruker_id>", methods=["GET"])
+def bok(nummer, bruker_id):
+    bruker = requests.get("http://192.168.10.27/bruker", json={"nummer": bruker_id})
     if nummer == 0:
         nummer = request.args.get("nummer")
+    # if bruker_id == None:
+    #     bruker_id = 0
     if int(nummer) < 1 or int(nummer) > 51:
         return render_template(
             "error.html", error="Bok nummer utenfor rekkevidden", status=404
@@ -30,7 +33,8 @@ def bok(nummer):
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code
         )
-    return render_template("bok.html", bok=response.json())
+    print(bruker.json())
+    return render_template("bok.html", bok=response.json(), bruker=bruker.json())
 
 
 @app.route("/barcode/<nummer>", methods=["GET"])
@@ -170,8 +174,10 @@ def lever_bok():
 
     if request.method == "POST":
         bok_id = request.form.get("bok_id")
-        requests.post("http://192.168.10.27/lever_bok", json={"bok_id": bok_id})
-        return redirect("/")
+        response = requests.post(
+            "http://192.168.10.27/lever_bok", json={"bok_id": bok_id}
+        )
+        return render_template("error.html", melding=response.json()["melding"])
 
 
 @app.route("/aktive_lånere", methods=["GET"])

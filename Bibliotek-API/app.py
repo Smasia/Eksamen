@@ -26,6 +26,7 @@ def index():
                         "forfatter": bok[1],
                         "isbn": bok[2],
                         "nummer": bok[3],
+                        "låntaker": bok[4] if bok[4] is not None else 0,
                     }
                 )
         return response, 200
@@ -45,6 +46,8 @@ def bok(nummer):
             "forfatter": bok[1],
             "isbn": bok[2],
             "nummer": nummer,
+            "låntaker": bok[4],
+            "dato": bok[5],
         }
         return response, 200
     except sqlite3.Error as e:
@@ -163,7 +166,10 @@ def bruker():
     nummer = request.get_json()["nummer"]
     cur.execute("SELECT * FROM låntakere WHERE nummer = ?", (nummer,))
     result = cur.fetchone()
-    brukere = {"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}
+    if result is not None:
+        brukere = {"fornavn": result[1], "etternavn": result[2], "nummer": result[0]}
+    else:
+        brukere = {"melding": "Fant ikke bruker"}
     return brukere, 200
 
 
