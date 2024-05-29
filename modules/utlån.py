@@ -22,26 +22,9 @@ cur.execute(
 )
 
 
-@app.route("/lån_bok", methods=["POST"])
-def lån_bok():
-    bok_id = request.get_json()["bok_id"]
-    bruker_id = request.get_json()["bruker_id"]
-    dato = datetime.datetime.now()
-    cur.execute(
-        "INSERT INTO utlån(bok_id, bruker_id, lånt) VALUES(?,?,?)",
-        (bok_id, bruker_id, dato),
-    )
-    con.commit()
-    return {"melding": "Bok ble lånt"}, 200
 
 
-@app.route("/lever_bok", methods=["POST"])
-def lever_bok():
-    id = request.get_json()["id"]
-    dato = datetime.datetime.now()
-    cur.execute("UPDATE utlån SET levert = ? WHERE id = ?", (dato, id))
-    con.commit()
-    return {"melding": "Bok er levert"}, 200
+
 
 
 @app.route("/lånte_bøker", methods=["GET"])

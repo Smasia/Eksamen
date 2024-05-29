@@ -1,6 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 import sqlite3
+import datetime
 
 app = Flask(__name__)
 CORS(app)
@@ -123,6 +124,92 @@ def leggtilbok():
         return {"melding": f"{tittel} ble registrert"}, 200
     except sqlite3.Error as e:
         return {"error": str(e)}, 500
+
+
+@app.route("/registrer", methods=["POST"])
+def registrer():
+    try:
+        navn = request.get_json()["navn"]
+        etternavn = request.get_json()["etternavn"]
+        nummer = request.get_json()["nummer"]
+        cur.execute(
+            "UPDATE låntakere SET fornavn = ?, etternavn = ? WHERE nummer = ?"(
+                navn, etternavn
+            )
+        )
+        con.commit()
+        return {"melding": "Bruker lagt til"}, 200
+    except sqlite3.Error as e:
+        return {"error": str(e)}, 500
+
+
+@app.route("/brukere", methods=["GET"])
+def brukere():
+    cur.execute("SELECT * FROM låntakere")
+    result = cur.fetchall()
+    brukere = []
+    for bruker in result:
+        brukere.append(
+            {"fornavn": bruker[1], "etternavn": bruker[2], "nummer": bruker[0]}
+        )
+    return brukere, 200
+
+
+@app.route("/lån_bok", methods=["POST"])
+def lån_bok():
+    bok_id = request.get_json()["bok_id"]
+    bruker_id = request.get_json()["bruker_id"]
+    dato = datetime.datetime.now()
+    cur.execute(
+        "UPDATE bøker SET låntaker = ?, dato = ? WHERE nummer = ?"(
+            bruker_id, dato, bok_id
+        ),
+    )
+    con.commit()
+    return {"melding": "Bok ble lånt"}, 200
+
+
+@app.route("/lever_bok", methods=["POST"])
+def lever_bok():
+    bok_id = request.get_json()["bok_id"]
+    cur.execute(
+        "UPDATE bøker SET låntaker = NULL, dato = NULL WHERE nummer = ?", (bok_id,)
+    )
+    con.commit()
+    return {"melding": "Bok er levert"}, 200
+
+
+@app.route("/aktive_lånere", methods=["GET"])
+def aktive_lånere():
+    cur.execute("SELECT * FROM bøker WHERE låntaker IS NOT NULL AND dato IS NOT NULL")
+    bøker = cur.fetchall()
+    cur.execute("SELECT * FROM brukere")
+    brukere = cur.fetchall()
+    bokliste = []
+    brukerliste = []
+    for bok in bøker:
+        bokliste.append(
+            {
+                "tittel": bok[0],
+                "forfatter": bok[1],
+                "isbn": bok[2],
+                "nummer": bok[3],
+                "låntaker": bok[4],
+                "dato": bok[5],
+            }
+        )
+    for bruker in brukere:
+        brukerliste.append(
+            {
+                "tittel": bruker[0],
+                "forfatter": bruker[1],
+                "isbn": bruker[2],
+                "nummer": bruker[3],
+                "låntaker": bruker[4],
+                "dato": bruker[5],
+            }
+        )
+    return [bokliste, brukerliste], 200
 
 
 if __name__ == "__main__":

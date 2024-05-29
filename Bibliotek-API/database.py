@@ -22,7 +22,7 @@ con.commit()
 cur.execute(
     """CREATE TABLE låntakere(
             nummer INTEGER PRIMARY KEY NOT NULL,
-            navn TEXT NOT NULL,
+            fornavn TEXT NOT NULL,
             etternavn TEXT NOT NULL
 )"""
 )

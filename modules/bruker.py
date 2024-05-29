@@ -27,32 +27,8 @@ def logget_inn(func):
 
 
 
-@app.route("/registrer", methods=["POST"])
-def registrer():
-    try:
-        navn = request.get_json()["navn"]
-        passord = request.get_json()["passord"]
-        cur.execute("INSERT INTO brukere(navn, passord) VALUES(?, ?)", (navn, passord))
-        con.commit()
-        return {"melding": "Bruker lagt til"}, 200
-    except sqlite3.Error as e:
-        return {"error": str(e)}, 500
 
 
-@app.route("/logg_inn", methods=["POST"])
-def logg_inn():
-    try:
-        navn = request.get_json()["navn"]
-        passord = request.get_json()["passord"]
-        cur.execute(
-            "SELECT * FROM brukere WHERE navn = ? AND passord = ?", (navn, passord)
-        )
-        bruker = cur.fetchone()
-        if bruker is None:
-            return {"melding": "fant ikke bruker"}, 404
-        return {"navn": bruker[1], "id": bruker[0]}, 200
-    except sqlite3.Error as e:
-        return {"error": str(e)}, 500
 
 
 @app.route("/registrer", methods=["GET", "POST"])
