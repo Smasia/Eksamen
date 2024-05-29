@@ -6,21 +6,37 @@
     <a href="{{ url_for('index') }}">Tilbake</a>
 </div>
 
-{% if not bruker %}
+{% if ((not bruker) and (not bok)) %}
 
 <form action="{{ url_for('lån_bruker') }}" method="post">
     <label for="nummer">Scan lånekort:</label>
     <input type="number" name="nummer" id="nummer" min="1000" max="1020" autofocus required>
 </form>
 
-{% else %}
+{% elif ((bruker) and (not bok)) %}
 
 <p>{{bruker.fornavn}} {{bruker.etternavn}}</p>
 
+<form action="{{ url_for('hent_bok') }}" method="get">
+    <input type="hidden" name="bruker_id" value="{{bruker.nummer}}">
+    <label for="nummer">Scan bok:</label>
+    <input type="number" name="nummer" id="nummer" min="1" max="51" autofocus required>
+</form>
+
+{% else %}
+<p>Låntaker: {{bruker.fornavn}} {{bruker.etternavn}}</p>
+<br>
+<p>Bok:</p>
+<h4>{{bok.tittel}}</h4>
+<p>{{bok.forfatter}}</p>
+<p>ISBN: {{bok.isbn}}</p>
+<p>Nummer: {{bok.nummer}}</p>
+
 <form action="{{ url_for('lån_bok') }}" method="post">
     <input type="hidden" name="bruker_id" value="{{bruker.nummer}}">
-    <label for="bok_id">Scan bok:</label>
-    <input type="number" name="bok_id" id="bok_id" min="1" max="51" autofocus required>
+    <input type="hidden" name="bok_id" value="{{bok.nummer}}">
+    <label for="bekreft">Bekreft utlån</label>
+    <input type="submit" name="nummer" id="nummer" value="Bekreft">
 </form>
 
 {% endif %}

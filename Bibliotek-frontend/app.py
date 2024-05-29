@@ -148,6 +148,21 @@ def lån_bok():
         return redirect("/")
 
 
+@app.route("/hent_bok", methods=["GET"])
+def hent_bok():
+    nummer = request.args.get("nummer")
+    bruker_id = request.args.get("bruker_id")
+    bruker = requests.get(
+        "http://192.168.10.27/bruker", json={"nummer": bruker_id}
+    ).json()
+    response = requests.get("http://192.168.10.27/bok/" + str(nummer))
+    if response.status_code == 500 or response.status_code == 404:
+        return render_template(
+            "error.html", error=response.json()["error"], status=response.status_code
+        )
+    return render_template("lån_bok.html", bruker=bruker, bok=response.json())
+
+
 @app.route("/lever_bok", methods=["GET", "POST"])
 def lever_bok():
     if request.method == "GET":
