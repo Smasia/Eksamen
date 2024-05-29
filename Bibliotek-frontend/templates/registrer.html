@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
-{% block contetn %}
+{% block content %}
 
-<p>registrer side</p>
+<form action="{{ url_for('registrer') }}" method="post">
+    <label for="fornavn">Fornavn:</label>
+    <input type="text" name="fornavn" id="fornavn" placeholder="Fornavn">
+    <label for="etternavn">Etternavn:</label>
+    <input type="text" name="etternavn" id="etternavn">
+    <label for="nummer">Nummer:</label>
+    <input type="text" name="nummer" id="nummer">
+    <input type="submit" value="Register">
+</form>
 
 {% endblock %}

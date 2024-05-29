@@ -104,12 +104,12 @@ def registrer():
         return render_template("registrer.html")
 
     if request.method == "POST":
-        navn = request.form.get("navn")
+        fornavn = request.form.get("fornavn")
         etternavn = request.form.get("etternavn")
         nummer = request.form.get("nummer")
         requests.post(
             "http://192.168.10.27/registrer",
-            json={"navn": navn, "etternavn": etternavn, "nummer": nummer},
+            json={"fornavn": fornavn, "etternavn": etternavn, "nummer": nummer},
         )
         return redirect("/")
 
