@@ -24,14 +24,7 @@ def logget_inn(func):
     return wrapper
 
 
-cur.execute(
-    """CREATE TABLE brukere(
-            id INTEGER PRIMARY KEY NOT NULL,
-            navn TEXT NOT NULL,
-            passord TEXT NOT NULL,
-            låner_bok integer
-)"""
-)
+
 
 
 @app.route("/registrer", methods=["POST"])
