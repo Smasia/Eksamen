@@ -22,8 +22,8 @@ con.commit()
 cur.execute(
     """CREATE TABLE låntakere(
             nummer INTEGER PRIMARY KEY NOT NULL,
-            fornavn TEXT NOT NULL,
-            etternavn TEXT NOT NULL
+            fornavn TEXT,
+            etternavn TEXT
 )"""
 )
 con.commit()
@@ -34,7 +34,8 @@ cur.executemany(
 con.commit()
 
 cur.executemany(
-    "INSERT INTO låntakere(nummer) VALUES(?)", [(nummer,) for nummer in range(1000, 1021)]
+    "INSERT INTO låntakere(nummer) VALUES(?)",
+    [(nummer,) for nummer in range(1000, 1021)],
 )
 con.commit()
 

@@ -6,7 +6,9 @@ import datetime
 app = Flask(__name__)
 CORS(app)
 
-con = sqlite3.Connection("./database.db", check_same_thread=False)
+con = sqlite3.Connection(
+    "/var/www/flask-application/database.db", check_same_thread=False
+)
 cur = con.cursor()
 
 
@@ -129,13 +131,12 @@ def leggtilbok():
 @app.route("/registrer", methods=["POST"])
 def registrer():
     try:
-        navn = request.get_json()["navn"]
+        navn = request.get_json()["fornavn"]
         etternavn = request.get_json()["etternavn"]
         nummer = request.get_json()["nummer"]
         cur.execute(
-            "UPDATE låntakere SET fornavn = ?, etternavn = ? WHERE nummer = ?"(
-                navn, etternavn
-            )
+            "UPDATE låntakere SET fornavn = ?, etternavn = ? WHERE nummer = ?",
+            (navn, etternavn, nummer),
         )
         con.commit()
         return {"melding": "Bruker lagt til"}, 200
@@ -170,9 +171,8 @@ def lån_bok():
     bruker_id = request.get_json()["bruker_id"]
     dato = datetime.datetime.now()
     cur.execute(
-        "UPDATE bøker SET låntaker = ?, dato = ? WHERE nummer = ?"(
-            bruker_id, dato, bok_id
-        ),
+        "UPDATE bøker SET låntaker = ?, dato = ? WHERE nummer = ?",
+        (bruker_id, dato, bok_id),
     )
     con.commit()
     return {"melding": "Bok ble lånt"}, 200
@@ -192,7 +192,9 @@ def lever_bok():
 def aktive_lånere():
     cur.execute("SELECT * FROM bøker WHERE låntaker IS NOT NULL AND dato IS NOT NULL")
     bøker = cur.fetchall()
-    cur.execute("SELECT * FROM låntakere")
+    cur.execute(
+        "SELECT * FROM låntakere WHERE fornavn IS NOT NULL AND etternavn IS NOT NULL"
+    )
     brukere = cur.fetchall()
     bokliste = []
     brukerliste = []
@@ -209,14 +211,7 @@ def aktive_lånere():
         )
     for bruker in brukere:
         brukerliste.append(
-            {
-                "tittel": bruker[0],
-                "forfatter": bruker[1],
-                "isbn": bruker[2],
-                "nummer": bruker[3],
-                "låntaker": bruker[4],
-                "dato": bruker[5],
-            }
+            {"fornavn": bruker[1], "etternavn": bruker[2], "nummer": bruker[0]}
         )
     return [bokliste, brukerliste], 200
 
