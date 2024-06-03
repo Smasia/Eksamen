@@ -31,6 +31,7 @@ def bok(nummer, bruker_id):
         return render_template(
             "error.html", error=response.json()["error"], status=response.status_code
         )
+    print(bruker)
     return render_template("bok.html", bok=response.json(), bruker=bruker.json())
 
 

@@ -174,9 +174,9 @@ def bruker():
             "nummer": result[0],
         }
         if result[1] == None:
-            return {"error": "Fant ikke bruker"}
+            return {"error": "Fant ikke bruker"}, 404
         return brukere, 200
-    brukere = {"error": "Fant ikke bruker"}, 404
+    brukere = {"error": "Fant ikke bruker"}
     return brukere, 404
 
 

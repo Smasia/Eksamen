@@ -227,3 +227,13 @@ nav .linker input {
     border-radius: 15px;
 }
 
+.bruker {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+}
+
+.bruker img {
+    width: fit-content;
+}

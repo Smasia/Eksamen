@@ -7,12 +7,12 @@
 </div>
 
 
-
-<p>{{bruker.fornavn}} {{bruker.etternavn}}</p>
-<p>{{bruker.nummer}}</p>
-<img src="{{ url_for('static', filename='barcode/' + bruker.nummer|string + '.png') }}" alt="">
-<img src="{{ url_for('static', filename='bilder/' + bruker.nummer|string + '.jpg') }}" alt="">
-
+<div class="bruker">
+    <p>{{bruker.fornavn}} {{bruker.etternavn}}</p>
+    <p>{{bruker.nummer}}</p>
+    <img src="{{ url_for('static', filename='bilder/' + bruker.nummer|string + '.jpg') }}" alt="">
+    <img src="{{ url_for('static', filename='barcode/' + bruker.nummer|string + '.png') }}" alt="">
+</div>
 
 
 {% endblock %}
